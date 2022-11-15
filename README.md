@@ -11,4 +11,4 @@
                 ![image](https://user-images.githubusercontent.com/36105778/201892487-0a00873f-5580-4623-9513-eb53ff3e4014.png)<br>
     - create config file Ingress for Kubernetes, apply rules to website as product on Kubernetes Cluster<br>
     
-    P.S. Beacuse infrastructure for Kubernetes its local, have some problem for show website into browser, it configuring via NodePort.<br>
+    P.S. Beacuse infrastructure for Kubernetes its local, have some problem for show website into browser, it configure via NodePort.<br>
