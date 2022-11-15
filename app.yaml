@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: koa
+  labels:
+    app: koa
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: koa
+  template:
+    metadata:
+      labels:
+        app: koa
+    spec:
+      containers:
+        - name: koawebsite
+          image: silame83/koa_website:1.0
+          command: ["node"]
+          args: ["app.js"]
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: internal-koa-website-service
+spec:
+  selector:
+    app.kubernetes.io/name: koa-website
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: koa-ingress
+#  annotations:
+#    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+#    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: koa.kubernetes.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: internal-koa-website-service
+                port:
+                  number: 3000
